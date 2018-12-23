@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Post} from '../posts/post.model';
 import {Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {environment} from "../../environments/environment";
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,10 @@ export class PostsService {
       });
   }
 
+  getPost(postId: string) {
+    return {...this.posts.find(p => p.id === postId)};
+  }
+
   addPost(newPost: Post) {
     this.http.post<any>(`${environment.apiURL}/posts`, {newPost})
       .subscribe(data => {
@@ -41,6 +45,14 @@ export class PostsService {
         });
         this.posts = refreshPosts;
         this.postsUpdated.next([...this.posts]);
+      });
+  }
+
+  updatePost(postId: string, updatedPost: Post) {
+    this.http.put<any>(`${environment.apiURL}/posts/${postId}`, updatedPost)
+      .subscribe(data => {
+        console.log(data);
+        this.getPosts();
       });
   }
 
