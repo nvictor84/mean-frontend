@@ -28,10 +28,13 @@ export class PostsService {
   }
 
   addPost(newPost: Post) {
-    this.http.post<any>(`${environment.apiURL}/posts`, {newPost})
+    const postData = new FormData();
+    postData.append('title', newPost.title);
+    postData.append('content', newPost.content);
+    postData.append('image', newPost.image, newPost.title);
+    this.http.post<{ success: boolean; post: Post}>(`${environment.apiURL}/posts`, postData)
       .subscribe(data => {
-        console.log(data);
-        this.posts.push(newPost);
+        this.posts.push(data.post);
         this.postsUpdated.next([...this.posts]);
       });
   }
@@ -49,7 +52,16 @@ export class PostsService {
   }
 
   updatePost(postId: string, updatedPost: Post) {
-    this.http.put<any>(`${environment.apiURL}/posts/${postId}`, updatedPost)
+    let postData;
+    if (typeof(updatedPost.image) === 'object') {
+      postData = new FormData();
+      postData.append('title', updatedPost.title);
+      postData.append('content', updatedPost.content);
+      postData.append('image', updatedPost.image, updatedPost.title);
+    } else {
+      postData = updatedPost;
+    }
+    this.http.put<any>(`${environment.apiURL}/posts/${postId}`, postData)
       .subscribe(data => {
         console.log(data);
         this.getPosts();

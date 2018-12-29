@@ -2,6 +2,7 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Post} from '../post.model';
 import {PostsService} from '../../services/posts.service';
 import {Subscription} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-post-list',
@@ -12,8 +13,10 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   posts: Post[] = [];
   private postsSub = new Subscription();
+  imagesPath: string;
 
   constructor(public postsService: PostsService) {
+    this.imagesPath = environment.imagesPath;
   }
 
   ngOnInit() {

@@ -4,6 +4,10 @@
   <mat-accordion multi="true">
     <mat-expansion-panel *ngFor="let post of posts">
       <mat-expansion-panel-header>{{post.title}}</mat-expansion-panel-header>
+      <div class="post-image" align="center">
+        <img src="{{ imagesPath + post.image }}"
+              alt="{{post.image}}">
+      </div>
       <p>{{post.content}}</p>
       <mat-action-row>
         <a mat-button routerLink="{{'/edit/' + post.id}}" color="primary">EDIT</a>
