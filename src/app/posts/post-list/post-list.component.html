@@ -1,18 +1,21 @@
 <mat-spinner *ngIf="!posts.length; else postsList"></mat-spinner>
 
 <ng-template #postsList>
-  <mat-accordion multi="true">
-    <mat-expansion-panel *ngFor="let post of posts">
-      <mat-expansion-panel-header>{{post.title}}</mat-expansion-panel-header>
-      <div class="post-image" align="center">
-        <img src="{{ imagesPath + post.image }}"
-              alt="{{post.image}}">
+  <div class="grid-row">
+    <div class="grid-item" *ngFor="let post of posts">
+      <div class="grid-item-wrapper">
+        <img class="grid-image-top" src="{{ imagesPath + post.image }}"
+             alt="{{post.image}}">
+        <div class="grid-item-container">
+          <mat-card-content>
+            <p>{{post.content}}</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <a mat-button routerLink="{{'/edit/' + post.id}}" color="primary">EDIT</a>
+            <a mat-button (click)="onDelete(post.id)" color="warn">DELETE</a>
+          </mat-card-actions>
+        </div>
       </div>
-      <p>{{post.content}}</p>
-      <mat-action-row>
-        <a mat-button routerLink="{{'/edit/' + post.id}}" color="primary">EDIT</a>
-        <a mat-button (click)="onDelete(post.id)" color="warn">DELETE</a>
-      </mat-action-row>
-    </mat-expansion-panel>
-  </mat-accordion>
+    </div>
+  </div>
 </ng-template>
