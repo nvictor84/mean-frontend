@@ -77,47 +77,6 @@
   background-position: center;
 }
 
-.rex-ray-image {
-  background-image: url(https://thecodeteam.com/wp-content/uploads/2017/08/Rex-Ray-icon-209x300.png);
-}
-
-
-.sputnik-image {
-  background-image: url(https://thecodeteam.com/wp-content/uploads/2017/08/sputnik-1-300x257.png);
-}
-
-.edgex-image {
-  background-image: url(https://thecodeteam.com/wp-content/uploads/2017/08/edge-x-300x287.png);
-}
-
-.openswitch-image {
-  background-image: url(https://thecodeteam.com/wp-content/uploads/2017/08/open-switch-300x207.png);
-}
-
-.scaleio-image {
-  background-image: url(https://thecodeteam.com/wp-content/uploads/2017/08/K8s_ScaleIO_Color-white-thumb-221x300.png);
-}
-
-.csi-image {
-  background-image: url(https://thecodeteam.com/wp-content/uploads/2017/08/csi-1-300x99.png);
-}
-
-.kubernetes-image {
-  background-image: url(https://thecodeteam.com/wp-content/uploads/2017/08/kubernetes-300x293.png);
-}
-
-.grpc-image {
-  background-image: url(https://thecodeteam.com/wp-content/uploads/2017/08/grpc-300x105.png);
-}
-
-.envoy-image {
-  background-image: url(https://thecodeteam.com/wp-content/uploads/2017/08/envoy_logo-5028052-300x91.png);
-}
-
-.istio-image {
-  background-image: url(https://thecodeteam.com/wp-content/uploads/2017/08/istio-203x300.png);
-}
-
 .grid-item-content {
   padding: 0 20px 20px 20px;
 }
