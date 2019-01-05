@@ -9,7 +9,7 @@ import {
   MatButtonModule,
   MatCardModule,
   MatExpansionModule,
-  MatInputModule,
+  MatInputModule, MatPaginatorModule,
   MatProgressSpinnerModule,
   MatToolbarModule
 } from '@angular/material';
@@ -37,7 +37,8 @@ import {AppRoutingModule} from './app-routing.module';
     MatButtonModule,
     MatToolbarModule,
     MatExpansionModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatPaginatorModule
   ],
   providers: [
     PostsService

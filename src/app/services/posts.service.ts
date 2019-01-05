@@ -10,16 +10,17 @@ import {environment} from '../../environments/environment';
 export class PostsService {
 
   private posts: Post[] = [];
-  private postsUpdated = new Subject<Post[]>();
+  private postsUpdated = new Subject<{posts: Post[], count: number}>();
 
   constructor(private http: HttpClient) {
   }
 
-  getPosts() {
-    this.http.get<any>(`${environment.apiURL}/posts`)
+  getPosts(postsPerPage: number = 2, currentPage: number = 1) {
+    const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`;
+    this.http.get<any>(`${environment.apiURL}/posts${queryParams}`)
       .subscribe(data => {
         this.posts = data['posts'];
-        this.postsUpdated.next([...this.posts]);
+        this.postsUpdated.next({posts: [...this.posts], count: data['count']});
       });
   }
 
@@ -35,7 +36,7 @@ export class PostsService {
     this.http.post<{ success: boolean; post: Post}>(`${environment.apiURL}/posts`, postData)
       .subscribe(data => {
         this.posts.push(data.post);
-        this.postsUpdated.next([...this.posts]);
+        this.postsUpdated.next({ posts: [...this.posts], count: 1});
       });
   }
 
@@ -47,7 +48,7 @@ export class PostsService {
           return post.id !== postId;
         });
         this.posts = refreshPosts;
-        this.postsUpdated.next([...this.posts]);
+        this.postsUpdated.next({ posts: [...this.posts], count: 1});
       });
   }
 
