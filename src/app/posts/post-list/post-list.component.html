@@ -9,7 +9,7 @@
               alt="{{post.image}}">
       </div>
       <p>{{post.content}}</p>
-      <mat-action-row>
+      <mat-action-row *ngIf="auth.getAuthStatus()">
         <a mat-button routerLink="{{'/edit/' + post.id}}" color="primary">EDIT</a>
         <a mat-button (click)="onDelete(post.id)" color="warn">DELETE</a>
       </mat-action-row>

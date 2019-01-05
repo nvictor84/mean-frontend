@@ -4,6 +4,7 @@ import {PostsService} from '../../services/posts.service';
 import {Subscription} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {PageEvent} from '@angular/material';
+import {AuthService} from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-post-list',
@@ -21,7 +22,11 @@ export class PostListComponent implements OnInit, OnDestroy {
   pageSizeOptions = [1, 2, 5, 10];
   currentPage = 1;
 
-  constructor(public postsService: PostsService) {
+  isLogged = false;
+  private authStateSubs: Subscription;
+
+  constructor(public postsService: PostsService,
+              private auth: AuthService) {
     this.imagesPath = environment.imagesPath;
   }
 
@@ -31,6 +36,10 @@ export class PostListComponent implements OnInit, OnDestroy {
       .subscribe((updatedPosts: any) => {
         this.posts = updatedPosts.posts;
         this.totalPosts = updatedPosts.count;
+      });
+    this.authStateSubs = this.auth.getAuthStateListener()
+      .subscribe(isAuthenticated => {
+        this.isLogged = isAuthenticated;
       });
   }
 
@@ -50,6 +59,7 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.postsSub.unsubscribe();
+    this.authStateSubs.unsubscribe();
   }
 
 }

@@ -1,5 +1,7 @@
 <mat-toolbar color="primary">
   <span>Mean Stack Lab</span>
   <a mat-button routerLink="/" mat-menu-item>Posts</a>
-  <a mat-button routerLink="/create" mat-menu-item>Create</a>
+  <a *ngIf="isLogged" mat-button routerLink="/create" mat-menu-item>Create</a>
+  <a *ngIf="isLogged" (click)="onLogout()" color="warn" mat-raised-button routerLink="/logout" mat-menu-item>Log out</a>
+  <a *ngIf="!isLogged" color="accent" mat-raised-button routerLink="/login" mat-menu-item>Login</a>
 </mat-toolbar>
