@@ -11,6 +11,7 @@ import {Subject} from 'rxjs';
 export class AuthService {
 
   authData: AuthData;
+  private userId: string;
   private token: string;
   // @ts-ignore
   private tokenTimer: NodeJS.Timer;
@@ -29,6 +30,10 @@ export class AuthService {
     return this.token;
   }
 
+  getUserId() {
+    return this.userId;
+  }
+
   getAuthStatus() {
     return this.authStatus;
   }
@@ -41,6 +46,7 @@ export class AuthService {
     const expiresIn = authInfo.expiration.getTime() - Date.now();
     if (expiresIn > 0) {
       this.token = authInfo.token;
+      this.userId = authInfo.userId;
       this.authStatus = true;
       this.authStateListener.next(true);
       this.setAuthTimer(expiresIn / 1000);
@@ -60,6 +66,8 @@ export class AuthService {
           this.authStatus = false;
           this.authStateListener.next(false);
         }
+      }, err => {
+        alert(err.error.message);
       });
   }
 
@@ -75,6 +83,7 @@ export class AuthService {
           this.authStateListener.next(false);
         }
         this.token = result.token;
+        this.userId = result.userId;
         this.authStatus = true;
         this.authStateListener.next(true);
         this.saveAuthData(result.expiresIn);
@@ -84,6 +93,7 @@ export class AuthService {
 
   logOut() {
     this.token = undefined;
+    this.authData = undefined;
     this.authStatus = false;
     this.authStateListener.next(false);
     clearTimeout(this.tokenTimer);
@@ -98,24 +108,28 @@ export class AuthService {
   }
 
   private saveAuthData(expiresIn: number) {
+    localStorage.setItem('userId', this.userId);
     localStorage.setItem('token', this.token);
     localStorage.setItem('expiration', new Date(Date.now() + (expiresIn * 1000)).toISOString());
     this.setAuthTimer(expiresIn);
   }
 
   private clearAuthData() {
+    localStorage.removeItem('userId');
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
   }
 
   private getAuthData() {
+    const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
     const expiration = localStorage.getItem('expiration');
-    if (!token || !expiration) {
+    if (!token || !expiration || !userId) {
       return;
     }
     return {
       token,
+      userId,
       expiration: new Date(expiration)
     };
   }
